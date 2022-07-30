@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+  build:
+    image: flask_crud
+    build:
+      context: .
+      dockerfile: Dockerfile
+  db:
+    network_mode: "none"
+    container_name: postgres_docker
+    image: postgres:12-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+  web:
+    network_mode: "none"
+    image: flask_crud
+    ports:
+      - 8008:8008
+    depends_on:
+      - build
+    entrypoint: python app.py

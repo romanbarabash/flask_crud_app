@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Books Flask app</title>
+</head>
+<body>
+<h1>Books Flask app</h1>
+<h2>Add book</h2>
+<form method="POST" action="/">
+    <input type="text" name="book_input">
+    <input type="submit" value="Add">
+</form>
+<h2>Books in the DB:</h2>
+<table>
+    {% for book in book_output %}
+    <tr>
+        <td>
+            {{book}}
+        </td>
+        <td>
+            <form method="POST" action="./update" style="display: inline">
+                <input type="hidden" value="{{book}}" name="old_title">
+                <input type="text" name="new_title">
+                <input type="submit" value="Update">
+            </form>
+        </td>
+        <td>
+            <form method="POST" action="./delete" style="display: inline">
+                <input type="hidden" value="{{book}}" name="title">
+                <input type="submit" value="Delete">
+            </form>
+        </td>
+        {% endfor %}
+</table>
+</body>
+</html>
