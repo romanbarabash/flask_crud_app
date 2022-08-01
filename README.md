@@ -1,6 +1,6 @@
 APP
 
-Can be run as is as python file on default port or via docker-compose.
+Can be run as is under `__init__.py` on default port or via docker-compose.
 
 DOCKER
 
