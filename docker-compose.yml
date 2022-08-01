@@ -23,4 +23,4 @@ services:
       - 8008:8008
     depends_on:
       - build
-    entrypoint: python app.py
+    entrypoint: python __init__.py
