@@ -11,22 +11,13 @@ db = create_engine(DB_CONNECT)
 books_table = Database().get_db_structure(table_name='books', meta=MetaData(db))
 
 
-# allow us to add book to db, select it from db and display on web UI
-@app.route("/", methods=["GET", "POST"])
-def get_post_book():
-    book_input = request.form.get('book_input')
-
+# allow us to select all books from db and display on web UI
+@app.route("/", methods=["GET"])
+def get():
     with db.connect() as conn:
-        # Create table
+        # Create table if it does not exist
         if not books_table.exists(db):
             books_table.create()
-
-        if book_input:
-            # Insert book info to db
-            insert_query = books_table \
-                .insert() \
-                .values(book_id=random.randint(1000000, 9999999), title=book_input)
-            conn.execute(insert_query)
 
         # select all books
         select = conn.execute(books_table.select())
@@ -38,7 +29,24 @@ def get_post_book():
     return render_template('home.html', book_output=titles)
 
 
-# allow us to update exact book by title and redirect us back to /
+# allow us to add book to db and redirect back to /
+@app.route("/", methods=["POST"])
+def post():
+    book_input = request.form.get('book_input')
+
+    with db.connect() as conn:
+        if book_input:
+            # Insert book info to db
+            insert_query = books_table \
+                .insert() \
+                .values(book_id=random.randint(1000000, 9999999), title=book_input)
+            conn.execute(insert_query)
+
+    render_template('home.html', book=[book_input])
+    return redirect("/")
+
+
+# allow us to update exact book by title and redirect back to /
 @app.route("/update", methods=["POST"])
 def update():
     with db.connect() as conn:
@@ -60,7 +68,7 @@ def update():
     return redirect("/")
 
 
-# allow us to delete exact book by title and redirect us back to /
+# allow us to delete exact book by title and redirect back to /
 @app.route("/delete", methods=["POST"])
 def delete():
     with db.connect() as conn:
