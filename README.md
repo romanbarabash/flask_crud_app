@@ -1,7 +1,5 @@
-APP
+Run app:
 
-Can be run as is under `__init__.py` on default port or via docker-compose.
+Can be run as is under `__init__.py` on  port `8008` 
 
-DOCKER
-
-`docker-compose up` to start on default `8008` port.
+or run `docker-compose up --build` to start on  port `8008`.

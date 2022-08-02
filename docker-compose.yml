@@ -23,4 +23,5 @@ services:
       - 8008:8008
     depends_on:
       - build
-    entrypoint: python __init__.py
+    entrypoint: python flask_crud_app/__init__.py
+

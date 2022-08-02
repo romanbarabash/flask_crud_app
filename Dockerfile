@@ -1,6 +1,8 @@
 FROM python:3.7-alpine
-WORKDIR /flask_app
+
+WORKDIR .
 COPY . .
+
 RUN \
  apk add postgresql-libs && \
  apk add --virtual .build-deps gcc musl-dev postgresql-dev && \
